@@ -11,13 +11,15 @@ body {
 }
 
 header img {
-  max-width: 45vw;
-  margin-top: 20px;
+  max-width: 50vw;
+  min-width: 380px;
+  margin: 20px;
 }
 
 footer img {
-  max-width: 45vw;
-  margin: 20px auto;
+    max-width: 50vw;
+    min-width: 380px;
+    margin: 20px;
   display: block;
 }
 
