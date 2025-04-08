@@ -1,0 +1,94 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #fff0f5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 95vh;
+}
+
+header img {
+  max-width: 45vw;
+  margin-top: 20px;
+}
+
+footer img {
+  max-width: 45vw;
+  margin: 20px auto;
+  display: block;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 90vw;
+  justify-content: center;
+  gap: 5px;
+}
+
+.grid button {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  background-color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.grid button:hover {
+  background-color: #f8bbd0;
+}
+
+.grid button.pago {
+  background-color: red;
+  color: white;
+  cursor: not-allowed;
+}
+
+.grid button.reservado {
+  background-color: yellow;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 300px;
+  width: 90%;
+}
+
+.modal-content input {
+  width: 90%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.modal-content button {
+  padding: 10px 20px;
+  background-color: #d81b60;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
