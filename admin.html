@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Painel Administrativo</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.2.2/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.2.2/js/dataTables.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #d81b60;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        button {
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Administração da Rifa</h2>
+    <table id="adminTable">
+        <thead>
+            <tr>
+                <th>Número</th>
+                <th>Nome</th>
+                <th>Telefone</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <script>
+        const API_URL = 'https://67f50ca6913986b16fa2fed9.mockapi.io/Pontos';
+
+        function carregarPontos() {
+            fetch(API_URL)
+                .then(res => res.json())
+                .then(data => {
+                    const tbody = document.querySelector("#adminTable tbody");
+                    tbody.innerHTML = '';
+                    console.log(data)
+
+                    data
+                        .sort((a, b) => a.numero - b.numero)
+                        .forEach(ponto => {
+                            //   if (!ponto.nome || !ponto.telefone) return; // Ignorar vazios
+
+                            const row = document.createElement('tr');
+
+                            row.innerHTML = `
+                <td>${ponto.numero}</td>
+                <td>${ponto.nome}</td>
+                <td>${ponto.telefone ? ponto.telefone : ''}</td>
+                <td>${ponto.pago ? 'Pago' : 'Reservado'}</td>
+                <td>
+                  ${ponto.pago
+                                    ? `<button disabled>Confirmado</button> <button style="background-color: #d81b60;" onclick="cancelarPagamento(${ponto.id})">Cancelar</button>`
+                                    : `<button onclick="confirmarPagamento(${ponto.id})">Confirmar</button><button style="background-color: #d81b60;" onclick="excluirPagamento(${ponto.id})">Excluir</button>`}
+                </td>
+              `;
+
+                            tbody.appendChild(row);
+                        });
+                });
+        }
+
+        function confirmarPagamento(id) {
+            console.log(id)
+            fetch(`https://67f50ca6913986b16fa2fed9.mockapi.io/Pontos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pago: true })
+            })
+                .then(res => res.json())
+                .then(() => {
+                    alert('Pagamento confirmado!');
+                    carregarPontos();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Erro ao confirmar pagamento');
+                });
+        }
+
+        function cancelarPagamento(id) {
+            console.log(id)
+            fetch(`https://67f50ca6913986b16fa2fed9.mockapi.io/Pontos/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pago: false })
+            })
+                .then(res => res.json())
+                .then(() => {
+                    alert('Pagamento cancelado!');
+                    carregarPontos();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Erro ao cancelar pagamento');
+                });
+        }
+
+        function excluirPagamento(id) {
+            console.log(id)
+            fetch(`https://67f50ca6913986b16fa2fed9.mockapi.io/Pontos/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ pago: false })
+            })
+                .then(res => res.json())
+                .then(() => {
+                    alert('Pagamento cancelado!');
+                    carregarPontos();
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Erro ao cancelar pagamento');
+                });
+        }
+
+        carregarPontos();
+        let table = new DataTable('#adminTable tbody');
+    </script>
+</body>
+
+</html>
