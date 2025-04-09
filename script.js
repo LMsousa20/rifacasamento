@@ -16,6 +16,7 @@
             btn.disabled = true;
           } else {
             btn.classList.add('reservado');
+            btn.disabled = true;
           }
         }
 
