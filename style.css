@@ -43,6 +43,7 @@ footer img {
 }
 
 .grid button:hover {
+  box-shadow: 12px 12px 14px rgba(0, 0, 0, 0.1);
   background-color: #f8bbd0;
 }
 
